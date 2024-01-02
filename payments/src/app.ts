@@ -32,8 +32,8 @@ export const getApp = async (): Promise<express.Application> => {
     RequestContext.create(orm.em, next);
   });
 
-  const ordersService = new PaymentsService(orm.em);
-  const ordersController = new PaymentsController(ordersService);
+  const paymentsService = new PaymentsService(orm.em);
+  const paymentsController = new PaymentsController(paymentsService);
 
   app.use(
     '*',
@@ -50,8 +50,8 @@ export const getApp = async (): Promise<express.Application> => {
   );
 
   app.use(
-    '/api/v1/orders',
-    paymentsRoutes(ordersController)
+    '/api/v1/payments',
+    paymentsRoutes(paymentsController)
   );
 
   app.use(errorHandler);

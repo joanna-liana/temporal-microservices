@@ -20,7 +20,7 @@ export class PaymentsController {
     res: Response,
   ): Promise<void> {
     const order = await this.paymentsService.pay(
-      req.params.orderId as Payment['id']
+      req.params.paymentId as Payment['id']
     );
 
     res.status(204).send(order);
@@ -31,7 +31,7 @@ export class PaymentsController {
     res: Response,
   ): Promise<void> {
     const order = await this.paymentsService.cancel(
-      req.params.orderId as Payment['id']
+      req.params.paymentId as Payment['id']
     );
 
     res.status(204).send(order);
@@ -42,7 +42,7 @@ export class PaymentsController {
     res: Response,
   ): Promise<void> {
     const order = await this.paymentsService.reject(
-      req.params.orderId as Payment['id']
+      req.params.paymentId as Payment['id']
     );
 
     res.status(204).send(order);
@@ -53,7 +53,7 @@ export class PaymentsController {
     res: Response,
   ): Promise<void> {
     const order = await this.paymentsService.refund(
-      req.params.orderId as Payment['id']
+      req.params.paymentId as Payment['id']
     );
 
     res.status(204).send(order);

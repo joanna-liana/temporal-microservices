@@ -1,0 +1,13 @@
+.dockerignore
+Dockerfile
+
+node_modules
+dist
+test
+
+*.log
+*.md
+
+.git
+
+*.env

@@ -1,0 +1,65 @@
+version: '3.1'
+services:
+  orders:
+    build:
+      context: ./orders
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3001
+      - DB_HOST=orders-db
+      - DB_PORT=5432
+      - DB_PASSWORD=postgres
+    depends_on:
+      orders-db:
+        condition: service_healthy
+
+  orders-db:
+    image: postgres:14.4
+    restart: always
+    ports:
+      - 5441:5432
+    environment:
+      POSTGRES_DB: saga_orders
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres-saga-orders-data:/var/lib/postgresql/data
+
+  payments:
+    build:
+      context: ./payments
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3002
+      - DB_HOST=payments-db
+      - DB_PORT=5432
+      - DB_PASSWORD=postgres
+    depends_on:
+      payments-db:
+        condition: service_healthy
+
+  payments-db:
+    image: postgres:14.4
+    restart: always
+    ports:
+      - 5442:5432
+    environment:
+      POSTGRES_DB: saga_payments
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres-saga-payments-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-saga-orders-data:
+  postgres-saga-payments-data:

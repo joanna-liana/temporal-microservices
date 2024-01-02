@@ -4,6 +4,8 @@ services:
     build:
       context: ./orders
       dockerfile: Dockerfile
+    ports:
+      - 3001:3001
     environment:
       - PORT=3001
       - DB_HOST=orders-db
@@ -34,6 +36,8 @@ services:
     build:
       context: ./payments
       dockerfile: Dockerfile
+    ports:
+      - 3002:3002
     environment:
       - PORT=3002
       - DB_HOST=payments-db

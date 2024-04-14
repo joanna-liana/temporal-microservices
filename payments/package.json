@@ -4,6 +4,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
+    "temporal:worker": "ts-node src/temporal/worker.ts",
     "dev": "ts-node-dev --respawn --inspect=4321 src/index.ts",
     "test": "jest",
     "lint": "eslint --fix ."
@@ -33,6 +34,10 @@
   "dependencies": {
     "@mikro-orm/core": "^5.9.6",
     "@mikro-orm/postgresql": "^5.9.6",
+    "@temporalio/activity": "^1.9.3",
+    "@temporalio/client": "^1.9.3",
+    "@temporalio/worker": "^1.9.3",
+    "@temporalio/workflow": "^1.9.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "dotenv": "^16.3.1",

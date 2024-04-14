@@ -12,6 +12,7 @@ import { Order } from './order.entity';
 import { OrdersController } from './orders.controller';
 import { ordersRoutes } from './orders.routes';
 import { OrdersService } from './orders.service';
+import { setUpClient } from './temporal/client';
 
 export const context = new AsyncLocalStorage();
 
@@ -32,8 +33,9 @@ export const getApp = async (): Promise<express.Application> => {
     RequestContext.create(orm.em, next);
   });
 
+  const temporalClient = await setUpClient();
   const ordersService = new OrdersService(orm.em);
-  const ordersController = new OrdersController(ordersService);
+  const ordersController = new OrdersController(temporalClient, ordersService);
 
   app.use(
     '*',

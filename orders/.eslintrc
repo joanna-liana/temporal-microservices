@@ -19,7 +19,7 @@
       "single"
     ],
     "@typescript-eslint/explicit-function-return-type": [
-      "error"
+      "off"
     ],
     "semi": "error",
     "simple-import-sort/imports": "error",

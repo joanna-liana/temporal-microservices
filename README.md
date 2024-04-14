@@ -25,6 +25,8 @@ curl -X POST http://localhost:3001/api/v1/orders
 3. Naviagate to the [Temporal UI](http://localhost:8080) to see the results.
 
 ## To do
-- call Payments subworkflow instead of activity
-- add timeouts/max attemps
-- saga - compensations (transactions with all-or-nothing semantics)
+- [x] Single-service workflow (Orders)
+- [x] Call Payments activity from Orders
+- [ ] Call Payments subworkflow instead of activity
+- [ ] Add timeouts/max attemps
+- [ ] Add compensations (saga - transactions with all-or-nothing semantics)

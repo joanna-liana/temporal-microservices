@@ -23,9 +23,7 @@ curl -X POST \
 http://localhost:3001/api/v1/orders
 ```
 
-*[14 April 2023] The request will return and error due to broken persistence; regardless, the workflow should complete successfully.*
-
-3. Naviagate to the [Temporal UI](http://localhost:8080) to see the results.
+3. Naviagate to the [Temporal UI](http://localhost:8080) to see the results. The orders logic throws throw a random error - therefore, the workflow might (eventually, after 3 retries) complete successfuly or fail.
 
 ## To do
 - [x] Single-service workflow (Orders)

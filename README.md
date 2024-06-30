@@ -28,6 +28,7 @@ http://localhost:3001/api/v1/orders
 ## To do
 - [x] Single-service workflow (Orders)
 - [x] Call Payments activity from Orders
+- [ ] Flesh out Payments activity to make HTTP call
 - [ ] Call Payments subworkflow instead of activity
-- [ ] Add timeouts/max attemps
+- [x] Add timeouts/max attempts
 - [ ] Add compensations (saga - transactions with all-or-nothing semantics)

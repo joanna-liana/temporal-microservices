@@ -61,7 +61,7 @@ export const getApp = async (): Promise<express.Application> => {
   return app;
 };
 
-async function setUpORM(): Promise<MikroORM<PostgreSqlDriver>> {
+export async function setUpORM(): Promise<MikroORM<PostgreSqlDriver>> {
   const orm = await MikroORM.init<PostgreSqlDriver>({
     entities: ['./**/*.entity.js'],
     entitiesTs: ['./**/*.entity.ts'],

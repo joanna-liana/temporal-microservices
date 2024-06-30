@@ -3,7 +3,7 @@ import { EntityManager, EntityRepository } from '@mikro-orm/postgresql';
 
 import { Order, OrderStatus } from './order.entity';
 
-type CreateOrderDto = {
+export type CreateOrderDto = {
   products: string[];
   createdBy: string;
 };
@@ -12,7 +12,7 @@ export class OrdersService {
   constructor(private readonly entityManager: EntityManager) {}
 
   private get ordersRepository(): EntityRepository<Order> {
-    return this, this.entityManager.getRepository(Order);
+    return this.entityManager.fork().getRepository(Order);
   }
 
   async cancel(orderId: Order['id']): Promise<void> {
@@ -26,7 +26,7 @@ export class OrdersService {
     });
 
     await this.ordersRepository.upsert(order);
-    await this.entityManager.flush();
+    await this.entityManager!.flush();
   }
 
   async get(orderId: Order['id']): Promise<Order> {
@@ -39,11 +39,9 @@ export class OrdersService {
   }
 
   async create(input: CreateOrderDto): Promise<Order> {
-    const orderToCreate = this.ordersRepository.create(input);
+    const repo = this.ordersRepository;
+    const orderToCreate = repo.create(input);
 
-    const order = await this.ordersRepository.upsert(orderToCreate);
-
-    return order;
-
+    return repo.upsert(orderToCreate);
   }
 }

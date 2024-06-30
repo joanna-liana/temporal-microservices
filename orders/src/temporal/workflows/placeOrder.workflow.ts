@@ -1,14 +1,19 @@
 import { proxyActivities } from '@temporalio/workflow';
 
-import type * as activities from '../activities';
+import { CreateOrderDto } from '../../orders.service';
+import type { createActivities } from '../activities';
 
 const {
   reserveItems,
   saveOrder,
 } = proxyActivities<
-  typeof activities & { createPendingPayment: () => Promise<void> }
+  ReturnType<typeof createActivities> &
+  { createPendingPayment: () => Promise<void> }
     >({
       startToCloseTimeout: '30 seconds',
+      retry: {
+        maximumAttempts: 3
+      }
     });
 
 const { createPendingPayment } = proxyActivities({
@@ -16,11 +21,13 @@ const { createPendingPayment } = proxyActivities({
   taskQueue: 'create-payment-taskqueue'
 });
 
-export async function PlaceOrderWorkflow(args: unknown): Promise<string> {
+export async function PlaceOrderWorkflow(
+  args: CreateOrderDto
+): Promise<string> {
   console.log('PlaceOrderWorkflow workflow args', args);
 
   await reserveItems();
-  await saveOrder();
+  await saveOrder(args);
   await createPendingPayment();
 
   return 'ORDER PLACED!';

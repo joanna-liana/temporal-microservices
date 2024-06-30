@@ -39,9 +39,19 @@ export class OrdersService {
   }
 
   async create(input: CreateOrderDto): Promise<Order> {
+    this.maybeThrowError();
+
     const repo = this.ordersRepository;
     const orderToCreate = repo.create(input);
 
     return repo.upsert(orderToCreate);
+  }
+
+  private maybeThrowError() {
+    const shouldFail = Math.random() < 0.5;
+
+    if (shouldFail) {
+      throw new Error('Order placement failed');
+    }
   }
 }

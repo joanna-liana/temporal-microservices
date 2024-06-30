@@ -9,15 +9,18 @@ A toy e-commerce app illustrating the usage of Temporal for handling distributed
 ```
 docker compose -f ./temporal-server/docker-compose.yml up # starts the temporal server
 
-cd payments && npm run temporal:worker && cd # starts Payments - just the Temporal worker
+cd payments && npm run temporal:worker # starts Payments - just the Temporal worker
 
 cd orders && npm run temporal:worker # starts Orders Temporal worker
-npm run dev # starts the Orders HTTP server
+cd orders && npm run dev # starts the Orders HTTP server
 
 ```
 2. Create an order via:
 ```
-curl -X POST http://localhost:3001/api/v1/orders
+curl -X POST \
+-H "Content-Type: application/json" \
+-d '{"createdBy": "demo-runner", "products": ["1","2","123"]}' \
+http://localhost:3001/api/v1/orders
 ```
 
 *[14 April 2023] The request will return and error due to broken persistence; regardless, the workflow should complete successfully.*

@@ -25,8 +25,7 @@ export class OrdersController {
       }
     );
 
-    await handle.result();
-    const order = await this.ordersService.create(req.body);
+    const order = await handle.result();
 
     res.status(201).send(order);
   }

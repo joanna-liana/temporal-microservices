@@ -1,4 +1,4 @@
-import { Client } from '@temporalio/client';
+import { Client, WorkflowIdReusePolicy } from '@temporalio/client';
 import { Request, Response } from 'express';
 
 import { Order } from './order.entity';
@@ -23,6 +23,9 @@ export class OrdersController {
         args: [req.body],
         taskQueue: placeOrderQueue,
         workflowId: `place-order-${orderId}`,
+        workflowIdReusePolicy:
+        // eslint-disable-next-line max-len
+        WorkflowIdReusePolicy.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY,
       }
     );
 

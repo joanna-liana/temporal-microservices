@@ -3,7 +3,9 @@ import { EntityManager, EntityRepository } from '@mikro-orm/postgresql';
 
 import { Order, OrderStatus } from './order.entity';
 
+// NOTE: this should be validated before reaching the workflow
 export type CreateOrderDto = {
+  orderId: Order['id'];
   products: string[];
   createdBy: string;
 };
@@ -42,7 +44,10 @@ export class OrdersService {
     this.maybeThrowError();
 
     const repo = this.ordersRepository;
-    const orderToCreate = repo.create(input);
+    const orderToCreate = repo.create({
+      ...input,
+      id: input.orderId
+    });
 
     return repo.upsert(orderToCreate);
   }

@@ -1,9 +1,8 @@
 import { Client } from '@temporalio/client';
-import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 
 import { Order } from './order.entity';
-import { OrdersService } from './orders.service';
+import { CreateOrderDto, OrdersService } from './orders.service';
 import { placeOrderQueue, PlaceOrderWorkflow } from './temporal/workflows';
 
 export class OrdersController {
@@ -16,12 +15,14 @@ export class OrdersController {
     req: Request,
     res: Response,
   ): Promise<void> {
+    const { orderId } = req.body as CreateOrderDto;
+
     const handle = await this.temporalClient.workflow.start(
       PlaceOrderWorkflow,
       {
         args: [req.body],
         taskQueue: placeOrderQueue,
-        workflowId: `workflow-${randomUUID()}`,
+        workflowId: `place-order-${orderId}`,
       }
     );
 
